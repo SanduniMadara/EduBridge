@@ -1,7 +1,15 @@
 <?php
 include 'config.php'; $error=""; $success="";
 if($_SERVER["REQUEST_METHOD"]=="POST"){
-  $full_name=$_POST['full_name']; $email=$_POST['email']; $phone=$_POST['phone']; $pass=$_POST['password']; $cpass=$_POST['confirm_password'];$al_stream=$_POST['al_stream']; $role=$_POST['role'];
+  $full_name=$_POST['full_name']; $email=$_POST['email']; $phone=$_POST['phone']; $pass=$_POST['password']; $cpass=$_POST['confirm_password']; $role=$_POST['role'];
+  
+  // Teacher nam Stream eka NULL, Student nam Stream eka gannawa
+  if($role == "student"){
+    $al_stream = $_POST['al_stream'];
+  } else {
+    $al_stream = NULL;
+  }
+
   if($pass!=$cpass){ $error="Your Password is Wrong!"; }
   else{
     $hash=password_hash($pass,PASSWORD_DEFAULT);
@@ -27,18 +35,9 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 </nav>
 
 <div class="container">
-  <div class="auth-card">
-    <div class="auth-left">
-      <h2>Welcome Back to<br>EduBridge</h2>
-      <p class="desc">Continue your learning journey with thousands of courses and expert mentors.</p>
-      <div class="features">
-        <div class="feat"><div class="icon">📋</div><div><b>Interactive Learning</b><small>Access live classes, quizzes, and assignments anytime</small></div></div>
-        <div class="feat"><div class="icon">📈</div><div><b>Track Your Progress</b><small>Monitor performance and earn certificates as you grow</small></div></div>
-        <div class="feat"><div class="icon">🏅</div><div><b>Certified Courses</b><small>Learn from industry experts and get certified</small></div></div>
-      </div>
-      <div class="trusted">Trusted by 50k+ learners worldwide • 4.8★ rating</div>
-    </div>
-    <div class="auth-right">
+  <div class="image-card">
+  
+    <div class="login-on-image">
       <h2>Create Account</h2>
       <?php if($error!="") echo "<div class='alert alert-danger'>$error</div>"; ?>
       <?php if($success!="") echo "<div class='alert alert-success'>$success <a href='login.php'>Login</a></div>"; ?>
@@ -48,24 +47,45 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
         <div class="reg-row"><label>Phone</label><input type="text" name="phone" placeholder="+1 (123) 456-7890"></div>
         <div class="reg-row"><label>Password</label><div class="pass-box"><input type="password" name="password" id="p1" placeholder="Create a password" required><b class="eye" onclick="togglePass('p1')">👁️</b></div></div>
         <div class="reg-row"><label>Confirm Password</label><div class="pass-box"><input type="password" name="confirm_password" id="p2" placeholder="Confirm your password" required><b class="eye" onclick="togglePass('p2')">👁️</b></div></div>
-       <div class="reg-row"><label>A/L Stream</label>
-                <select name="al_stream">
-                    <option>Maths</option>
-                    <option>science</option>
-                    <option>Art</option>
-                    <option>Technology</option>
-                    <option>Commerce</option>
-                </select>
+
+        <div class="reg-row"><label>Role</label>
+          <select name="role" id="role" onchange="checkRole()" required>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </select>
         </div>
-        <div class="reg-row"><label>Role</label><select name="role"><option>Student</option><option>Teacher</option></select></div>
-        <button class="btn-create">Create Account</button>
-        <div class="or"><hr>OR<hr></div>
-        <button type="button" class="btn-google"><img src="https://www.google.com/favicon.ico" width="20"> Continue with Google</button>
+
+        <div class="reg-row" id="streamDiv"><label>A/L Stream</label>
+          <select name="al_stream">
+            <option value="Maths">Maths</option>
+            <option value="Science">Science</option>
+            <option value="Art">Art</option>
+            <option value="Technology">Technology</option>
+            <option value="Commerce">Commerce</option>
+          </select>
+        </div>
+
+        <div class="reg-row"> </div>
+          <button class="btn-create">Create Account</button>
+          <div class="or"><hr>OR<hr></div>
+          <button type="button" class="btn-google"><img src="https://www.google.com/favicon.ico" width="20"> Continue with Google</button>
+        <p class="bottom-center">Already have an account? <a href="login.php">Login</a></p>
       </form>
     </div>
   </div>
-  <p class="bottom-center">Already have an account? <a href="login.php">Login</a></p>
+ 
 </div>
 <script src="js/bootstrap.bundle.js"></script>
-<script>function togglePass(id){var x=document.getElementById(id);x.type=x.type==="password"?"text":"password";}</script>
+<script>
+function togglePass(id){var x=document.getElementById(id);x.type=x.type==="password"?"text":"password";}
+function checkRole(){
+  var role = document.getElementById("role").value;
+  var streamDiv = document.getElementById("streamDiv");
+  if(role == "student"){
+    streamDiv.style.display = "block";
+  } else {
+    streamDiv.style.display = "none";
+  }
+}
+</script>
 </body></html>

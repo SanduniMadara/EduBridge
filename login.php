@@ -8,7 +8,7 @@
 
 <nav class="navbar-login">
   <a class="logo" href="#"><img src="images/logo.png" class="nav-logo-img"> EduBridge</a>
-  <div class="nav-links"><a href="#">Home</a><a href="#">About</a><a href="#">Courses</a><a href="#">Contact</a><a href="register.php" class="btn-orange-nav">Sign Up</a></div>
+  <div class="nav-links"><a href="index.php">Home</a><a href="#">About</a><a href="#">Courses</a><a href="#">Contact</a><a href="register.php" class="btn-orange-nav">Sign Up</a></div>
 </nav>
 
 <div class="container">
